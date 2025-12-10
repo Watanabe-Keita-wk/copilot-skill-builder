@@ -1,0 +1,27 @@
+{
+  "name": "copilot-skill-builder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI Coding Learning Platform with GitHub Copilot",
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "start": "pnpm --filter web start",
+    "lint": "pnpm --filter web lint",
+    "db:migrate": "pnpm --filter web db:migrate",
+    "db:seed": "pnpm --filter web db:seed",
+    "db:studio": "pnpm --filter web db:studio"
+  },
+  "keywords": [
+    "copilot",
+    "learning",
+    "vscode",
+    "education"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

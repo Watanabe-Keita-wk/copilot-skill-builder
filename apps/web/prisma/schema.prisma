@@ -1,0 +1,183 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ユーザー
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  name              String?
+  image             String?
+  password          String?  // ハッシュ化されたパスワード（ローカル認証用）
+  githubId          String?  @unique
+  githubUsername    String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // リレーション
+  apiTokens         ApiToken[]
+  missionProgress   UserMissionProgress[]
+  courseProgress    UserCourseProgress[]
+  lessonProgress    UserLessonProgress[]
+  
+  @@map("users")
+}
+
+// API認証トークン（VS Code拡張機能用）
+model ApiToken {
+  id          String    @id @default(cuid())
+  token       String    @unique
+  userId      String
+  name        String?   // トークンの識別名（例: "My Laptop"）
+  expiresAt   DateTime?
+  lastUsedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("api_tokens")
+}
+
+// コース
+model Course {
+  id            String    @id @default(cuid())
+  title         String
+  description   String
+  slug          String    @unique
+  imageUrl      String?
+  difficulty    String    @default("BEGINNER") // BEGINNER, INTERMEDIATE, ADVANCED
+  order         Int       @default(0)
+  isPublished   Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // リレーション
+  lessons       Lesson[]
+  missions      Mission[]
+  userProgress  UserCourseProgress[]
+  
+  @@map("courses")
+}
+
+// 講座（レッスン）
+model Lesson {
+  id          String    @id @default(cuid())
+  courseId    String
+  title       String
+  description String?
+  content     String    // Markdown
+  videoUrl    String?
+  order       Int       @default(0)
+  duration    Int?      // 分単位
+  isPublished Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userProgress UserLessonProgress[]
+  
+  @@map("lessons")
+}
+
+// 実践課題（ミッション）
+model Mission {
+  id              String    @id @default(cuid())
+  courseId        String?   // nullの場合は独立したミッション
+  title           String
+  description     String
+  difficulty      String    @default("BEGINNER")
+  order           Int       @default(0)
+  estimatedTime   Int?      // 想定所要時間（分）
+  
+  // 課題の内容
+  instructions    String    // Markdown（README.mdの内容）
+  starterCode     String?   // main.tsの初期コード
+  testCode        String    // main.test.tsの内容
+  solutionCode    String?   // 解答例（非公開）
+  hints           String    @default("[]") // JSON array string
+  
+  // メタデータ
+  tags            String    @default("[]") // JSON array string
+  dependencies    String    @default("[]") // JSON array string (npm packages)
+  isPublished     Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  course          Course?   @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  userProgress    UserMissionProgress[]
+  
+  @@map("missions")
+}
+
+// ユーザーのミッション進捗
+model UserMissionProgress {
+  id              String    @id @default(cuid())
+  userId          String
+  missionId       String
+  status          String    @default("NOT_STARTED") // NOT_STARTED, IN_PROGRESS, COMPLETED, FAILED
+  
+  startedAt       DateTime?
+  completedAt     DateTime?
+  attemptCount    Int       @default(0)
+  testResults     String?   // JSON string
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mission         Mission   @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  @@unique([userId, missionId])
+  @@map("user_mission_progress")
+}
+
+// ユーザーのレッスン進捗
+model UserLessonProgress {
+  id              String    @id @default(cuid())
+  userId          String
+  lessonId        String
+  
+  isCompleted     Boolean   @default(false)
+  completedAt     DateTime?
+  lastAccessedAt  DateTime  @default(now())
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson          Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, lessonId])
+  @@map("user_lesson_progress")
+}
+
+// ユーザーのコース進捗
+// ユーザーのコース進捗
+model UserCourseProgress {
+  id              String    @id @default(cuid())
+  userId          String
+  courseId        String
+  
+  completedLessons Int      @default(0)
+  completedMissions Int     @default(0)
+  totalLessons    Int       @default(0)
+  totalMissions   Int       @default(0)
+  progressPercent Int       @default(0)
+  
+  startedAt       DateTime  @default(now())
+  lastAccessedAt  DateTime  @default(now())
+  completedAt     DateTime?
+  
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course          Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, courseId])
+  @@map("user_course_progress")
+}

@@ -1,0 +1,37 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- グラデーション定義 -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#667eea"/>
+      <stop offset="100%" stop-color="#764ba2"/>
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#f093fb"/>
+      <stop offset="100%" stop-color="#f5576c"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 - 丸みを帯びた四角形 -->
+  <rect width="128" height="128" rx="24" fill="url(#bgGradient)"/>
+  
+  <!-- メインアイコン: コードブラケットと脳のシンボル -->
+  <!-- 左ブラケット -->
+  <path d="M35 45 L30 50 L30 78 L35 83" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- 右ブラケット -->
+  <path d="M93 45 L98 50 L98 78 L93 83" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- 中央の脳/AI シンボル -->
+  <circle cx="64" cy="50" r="16" fill="white" opacity="0.9"/>
+  <circle cx="58" cy="48" r="3" fill="#667eea"/>
+  <circle cx="70" cy="48" r="3" fill="#667eea"/>
+  <path d="M58 54 Q64 58 70 54" stroke="#667eea" stroke-width="2" stroke-linecap="round" fill="none"/>
+  
+  <!-- スキルレベルインジケーター（3つのバー） -->
+  <rect x="48" y="75" width="8" height="18" rx="2" fill="white" opacity="0.6"/>
+  <rect x="60" y="70" width="8" height="23" rx="2" fill="white" opacity="0.8"/>
+  <rect x="72" y="65" width="8" height="28" rx="2" fill="white"/>
+  
+  <!-- 星（達成感を表現） -->
+  <path d="M64 98 L66 104 L72 105 L67 109 L69 115 L64 112 L59 115 L61 109 L56 105 L62 104 Z" fill="url(#accentGradient)"/>
+</svg>

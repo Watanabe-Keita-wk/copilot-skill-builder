@@ -1,0 +1,89 @@
+{
+  "name": "vscode-extension",
+  "version": "0.1.0",
+  "private": true,
+  "displayName": "Copilot Skill Builder",
+  "description": "Learn GitHub Copilot through practical missions",
+  "publisher": "copilot-skill-builder",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Education", "Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "copilot-skill-builder.authenticate",
+        "title": "Copilot Skill Builder: Authenticate"
+      },
+      {
+        "command": "copilot-skill-builder.startMission",
+        "title": "Copilot Skill Builder: Start Mission"
+      },
+      {
+        "command": "copilot-skill-builder.submitMission",
+        "title": "Copilot Skill-builder: Submit Mission"
+      },
+      {
+        "command": "copilot-skill-builder.viewProgress",
+        "title": "Copilot Skill Builder: View Progress"
+      }
+    ],
+    "configuration": {
+      "title": "Copilot Skill Builder",
+      "properties": {
+        "copilotSkillBuilder.apiToken": {
+          "type": "string",
+          "default": "",
+          "description": "API token for authentication",
+          "markdownDescription": "Your API token from the Copilot Skill Builder web app"
+        },
+        "copilotSkillBuilder.apiUrl": {
+          "type": "string",
+          "default": "http://localhost:3000",
+          "description": "API base URL"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "copilot-skill-builder",
+          "title": "Copilot Skill Builder",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "copilot-skill-builder": [
+        {
+          "id": "copilot-skill-builder.missions",
+          "name": "Missions"
+        },
+        {
+          "id": "copilot-skill-builder.progress",
+          "name": "Progress"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run build",
+    "build": "tsup src/extension.ts --external vscode",
+    "watch": "tsup src/extension.ts --external vscode --watch",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "eslint": "^8.57.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "axios": "^1.6.8"
+  }
+}
