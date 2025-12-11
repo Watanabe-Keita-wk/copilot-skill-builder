@@ -6,7 +6,6 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { OpenInVSCodeButton } from '../../../components/OpenInVSCodeButton'
 import { TestRunner } from '../../../components/TestRunner'
 
 export default async function MissionPage({
@@ -218,23 +217,6 @@ export default async function MissionPage({
               </div>
             </div>
 
-            {/* VS Codeで開く */}
-            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 mb-6">
-              <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-300 mb-2">
-                🚀 VS Codeで挑戦
-              </h3>
-              <p className="text-blue-800 dark:text-blue-400 mb-4 text-sm">
-                VS Code拡張機能を使って、このミッションに挑戦しましょう
-              </p>
-              <OpenInVSCodeButton
-                missionId={mission.id}
-                missionTitle={mission.title}
-              />
-              <p className="text-xs text-blue-700 dark:text-blue-500 mt-2">
-                ※ VS Code拡張機能のインストールが必要です
-              </p>
-            </div>
-
             {/* ヒント */}
             {hints.length > 0 && (
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-6">
@@ -321,20 +303,20 @@ export default async function MissionPage({
                 )}
               </div>
             </div>
-
-            {/* 解答例（完了後のみ表示） */}
-            {progress?.status === 'COMPLETED' && mission.solutionCode && (
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                  ✨ 解答例
-                </h3>
-                <pre className="bg-gray-900 text-gray-100 p-4 rounded text-sm overflow-x-auto">
-                  <code>{mission.solutionCode}</code>
-                </pre>
-              </div>
-            )}
           </div>
         </div>
+
+        {/* 解答例（完了後のみ表示） */}
+        {progress?.status === 'COMPLETED' && mission.solutionCode && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mt-8">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              ✨ 解答例
+            </h3>
+            <pre className="bg-gray-900 text-gray-100 p-4 rounded text-sm overflow-x-auto">
+              <code>{mission.solutionCode}</code>
+            </pre>
+          </div>
+        )}
       </main>
     </div>
   )

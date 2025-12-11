@@ -161,12 +161,11 @@ pnpm dev
 
 ### VS Codeでミッションに挑戦
 
-1. Webアプリでミッションページを開く
-2. 「VS Codeで開く」ボタンをクリック
-3. VS Code拡張機能が自動的にミッションを開始
-4. \`main.ts\`にコードを書く
-5. テストを実行して結果を確認
-6. 完了したら「Submit Mission」を実行
+1. VS Code拡張機能のサイドバーから挑戦したいミッションを選択
+2. ミッションが自動的に開始される
+3. \`main.ts\`にコードを書く
+4. テストを実行して結果を確認
+5. 完了したら「Submit Mission」を実行
 
 ## 🗂️ プロジェクト構造
 
@@ -175,33 +174,43 @@ copilot-skill-builder/
 ├── apps/
 │   ├── web/                    # Next.jsアプリケーション
 │   │   ├── app/               # App Router
+│   │   │   ├── api/          # APIルート
+│   │   │   ├── auth/         # 認証ページ
+│   │   │   ├── courses/      # コースページ
+│   │   │   ├── dashboard/    # ダッシュボード
+│   │   │   ├── missions/     # ミッションページ
+│   │   │   └── settings/     # 設定ページ
 │   │   ├── components/        # Reactコンポーネント
 │   │   ├── lib/              # ユーティリティ関数
-│   │   ├── prisma/           # データベーススキーマ
-│   │   └── public/           # 静的ファイル
+│   │   ├── prisma/           # データベース
+│   │   │   ├── migrations/  # マイグレーション履歴
+│   │   │   └── seed-data/   # シードデータ
+│   │   ├── types/            # TypeScript型定義
+│   │   ├── next.config.js
+│   │   ├── postcss.config.js
+│   │   ├── tailwind.config.js
+│   │   ├── tsconfig.json
+│   │   └── package.json
+│   │
 │   └── vscode-extension/      # VS Code拡張機能
+│       ├── .vscode/          # デバッグ設定
+│       ├── resources/        # リソースファイル
 │       ├── src/
-│       │   ├── api/          # APIクライアント
-│       │   ├── providers/    # ツリービュープロバイダー
-│       │   └── extension.ts  # メインエントリーポイント
-│       └── package.json
+│       │   ├── api/         # APIクライアント
+│       │   └── providers/   # ツリービュープロバイダー
+│       ├── dist/            # ビルド出力
+│       ├── package.json
+│       └── tsconfig.json
+│
+├── .gitignore
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
 ├── package.json
-├── pnpm-workspace.yaml
-└── README.md
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
 \`\`\`
-
-## 🧪 サンプルミッション
-
-プラットフォームには以下のサンプルミッションが含まれています:
-
-1. **配列の合計を計算する関数** (初級)
-   - GitHub Copilotを使った基本的な関数実装
-   
-2. **文字列を逆順にする関数** (初級)
-   - 文字列操作とCopilotのサジェスト活用
-
-3. **FizzBuzz実装** (初級)
-   - 条件分岐とCopilotによるパターン認識
 
 ## 🔧 開発コマンド
 
@@ -236,58 +245,6 @@ cd apps/vscode-extension && pnpm build
 - **UserMissionProgress**: ユーザーのミッション進捗
 - **UserCourseProgress**: ユーザーのコース進捗
 - **ApiToken**: VS Code拡張用APIトークン
-
-## 🚀 デプロイ
-
-### Webアプリケーション
-
-#### Vercel（推奨）
-
-1. Vercelアカウントを作成
-2. プロジェクトをインポート
-3. 環境変数を設定:
-   - \`DATABASE_URL\`
-   - \`NEXTAUTH_URL\`
-   - \`NEXTAUTH_SECRET\`
-4. デプロイ
-
-#### 自前サーバー
-
-\`\`\`bash
-cd apps/web
-pnpm build
-pnpm start
-\`\`\`
-
-### データベース
-
-本番環境では PostgreSQL または MySQL の使用を推奨します。
-
-\`\`\`prisma
-// prisma/schema.prisma
-datasource db {
-  provider = "postgresql"  // または "mysql"
-  url      = env("DATABASE_URL")
-}
-\`\`\`
-
-### VS Code拡張機能
-
-\`\`\`bash
-cd apps/vscode-extension
-pnpm vscode:prepublish
-vsce package
-\`\`\`
-
-## 🤝 コントリビューション
-
-コントリビューションを歓迎します！
-
-1. フォークする
-2. フィーチャーブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. コミット (`git commit -m 'Add some amazing feature'`)
-4. プッシュ (`git push origin feature/amazing-feature`)
-5. プルリクエストを作成
 
 ## 🔧 トラブルシューティング
 
