@@ -52,11 +52,11 @@ export default async function CoursePage({
   // 進捗を計算
   const totalLessons = course.lessons.length
   const completedLessons = course.lessons.filter(
-    (lesson) => lesson.userProgress[0]?.isCompleted
+    (lesson: any) => lesson.userProgress[0]?.isCompleted
   ).length
   const totalMissions = missions.length
   const completedMissions = missions.filter(
-    (mission) => mission.userProgress[0]?.status === 'COMPLETED'
+    (mission: any) => mission.userProgress[0]?.status === 'COMPLETED'
   ).length
   const totalItems = totalLessons + totalMissions
   const completedItems = completedLessons + completedMissions
