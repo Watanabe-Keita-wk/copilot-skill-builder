@@ -108,7 +108,7 @@ export default async function CoursePage({
               📚 レッスン
             </h2>
             <div className="space-y-4">
-              {course.lessons.map((lesson) => {
+              {course.lessons.map((lesson: any) => {
                 const isCompleted = lesson.userProgress[0]?.isCompleted || false
                 
                 return (
@@ -162,7 +162,7 @@ export default async function CoursePage({
               🎯 ミッション
             </h2>
             <div className="space-y-4">
-              {missions.map((mission) => {
+              {missions.map((mission: any) => {
                 const progress = mission.userProgress[0]
                 const isCompleted = progress?.status === 'COMPLETED'
                 const isInProgress = progress?.status === 'IN_PROGRESS'
